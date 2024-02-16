@@ -14,13 +14,13 @@ function purchaseItem(action) {
     let col;
     switch (action) {
         case 'purchaseBeer':
-            col = 1; // Assuming column 1 is for beer purchases
+            col = 1;
             break;
         case 'purchaseSpezi':
-            col = 2; // Adjust the column index for Spezi purchases
+            col = 2;
             break;
         case 'purchaseKiste':
-            col = 3; // Adjust the column index for Kiste purchases
+            col = 3;
             break;
         default:
             console.error('Invalid action');
@@ -34,19 +34,30 @@ function purchaseItem(action) {
     };
 
     fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+    method: 'POST',
+    headers: {
+        'Content-Type': 'text/plain;charset=utf-8', // or 'application/json' if you've handled CORS
+    },
+    body: JSON.stringify(data)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // This line correctly parses the JSON response body
+    })
     .then(data => {
-        document.getElementById('responseMessage').innerText = data.message;
+        console.log(data); // Make sure data is what you expect
+        // Correctly access the properties of the data object
+        if (data.status === "success") {
+            document.getElementById('responseMessage').innerText = data.message + ". New credit: " + data.newCredit;
+        } else {
+            // Handle any other status
+            document.getElementById('responseMessage').innerText = "Error: " + data.message;
+        }
     })
     .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('responseMessage').innerText = 'Error making request';
+        console.error('Fetch error:', error);
+        document.getElementById('responseMessage').innerText = 'Error making request. See console for more details.';
     });
 }
-
