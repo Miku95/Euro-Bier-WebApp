@@ -10,6 +10,15 @@ document.getElementById('purchaseKiste').addEventListener('click', function() {
     purchaseItem('purchaseKiste');
 });
 
+function getUserIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('userId');
+}
+
+const userId = getUserIdFromUrl();
+console.log("User ID:", userId); // Log the ID to the console for verification
+
+
 function purchaseItem(action) {
     let col;
     switch (action) {
