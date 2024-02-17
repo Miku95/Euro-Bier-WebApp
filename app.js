@@ -1,9 +1,12 @@
+// Define the URL as a global variable
+const baseURL = 'https://script.google.com/macros/s/AKfycbw5Mye3nD3hFb1fK-oMiy2AfK4cqeqIFC6WqnxS7B6jfjw4I4pP0u4o23v4IkfeKzZw/exec';
+
 document.addEventListener('DOMContentLoaded', function() {
     const userId = new URLSearchParams(window.location.search).get('userId');
     fetchCurrentCredit(userId);
     getHighScores('getTopHighscores');
     
-    // Event-Listener an die Schaltflächen anhängen
+    // Event listeners for the buttons
     document.getElementById('purchaseBeer').addEventListener('click', function() {
         purchaseItem('purchaseBeer');
     });
@@ -32,7 +35,7 @@ function purchaseItem(action) {
         action: action,
         userId: userId,
     };
-    fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec?userId=${userId}', {
+    fetch(`${baseURL}?userId=${userId}`, { // Use template literals to insert variables
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain;charset=utf-8',
@@ -56,7 +59,7 @@ function purchaseItem(action) {
         }
     })
     .catch(error => {
-        console.error('Fehler bei der Abfrage:', error);
+        console.error('Fehler bei der Anfrage:', error);
         document.getElementById('responseMessage').innerText = 'Fehler bei der Anfrage. Weitere Details finden Sie in der Konsole.';
     });
 }
@@ -66,7 +69,7 @@ function fetchCurrentCredit(userId) {
         action: 'getCredit',
         userId: userId,
     };
-    fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec?userId=${userId}', {
+    fetch(`${baseURL}?userId=${userId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain;charset=utf-8',
@@ -89,7 +92,7 @@ function fetchCurrentCredit(userId) {
         }
     })
     .catch(error => {
-        console.error('Fehler bei der Abfrage:', error);
+        console.error('Fehler bei der Anfrage:', error);
     });
 }
 
@@ -99,11 +102,11 @@ function uploadCredit(action, amount) {
         action: action,
         userId: userId,
     };
-    fetch(`https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec?userId=${userId}`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-    },
+    fetch(`${baseURL}?userId=${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+        },
         body: JSON.stringify(data)
     })  
     .then(response => {
@@ -123,7 +126,7 @@ function uploadCredit(action, amount) {
         }
     })
     .catch(error => {
-        console.error('Fehler bei der Abfrage:', error);
+        console.error('Fehler bei der Anfrage:', error);
         document.getElementById('responseMessage').innerText = 'Fehler bei der Anfrage. Weitere Details finden Sie in der Konsole.';
     });
 }
@@ -135,44 +138,44 @@ function getHighScores(action) {
         userId: userId,
     };
 
-    fetch(`https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec?userId=${userId}`, {
+    fetch(`${baseURL}?userId=${userId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain;charset=utf-8',
         },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Parse the JSON response
-        })
-        .then(responseData => { // Now responseData holds the parsed JSON data
-            console.log(responseData);
-            // Check if topSpezi exists
-            if (responseData.topSpeziHighscores) {
-                document.getElementById('topSpezi').innerHTML = "<h3>Top 3 Spezi Highscores</h3>";
-                // Display top 3 highscores for spezi
-                responseData.topSpeziHighscores.forEach((score, index) => {
-                    document.getElementById('topSpezi').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
-                });
-            } else {
-                console.error('Top Spezi scores not found in response data');
-            }
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Netzwerkantwort war nicht in Ordnung');
+        }
+        return response.json();
+    })
+    .then(responseData => {
+        console.log(responseData);
+        // Check if topSpezi exists
+        if (responseData.topSpeziHighscores) {
+            document.getElementById('topSpezi').innerHTML = "<h3>Top 3 Spezi Highscores</h3>";
+            // Display top 3 highscores for spezi
+            responseData.topSpeziHighscores.forEach((score, index) => {
+                document.getElementById('topSpezi').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
+            });
+        } else {
+            console.error('Top-Spezi-Highscores nicht gefunden');
+        }
 
-            // Check if topBeer exists
-            if (responseData.topBeerHighscores) {
-                document.getElementById('topBeer').innerHTML = "<h3>Top 3 Beer Highscores</h3>";
-                // Display top 3 highscores for beer
-                responseData.topBeerHighscores.forEach((score, index) => {
-                    document.getElementById('topBeer').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
-                });
-            } else {
-                console.error('Top Beer scores not found in response data');
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
+        // Check if topBeer exists
+        if (responseData.topBeerHighscores) {
+            document.getElementById('topBeer').innerHTML = "<h3>Top 3 Bier Highscores</h3>";
+            // Display top 3 highscores for beer
+            responseData.topBeerHighscores.forEach((score, index) => {
+                document.getElementById('topBeer').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
+            });
+        } else {
+            console.error('Top-Bier-Highscores nicht gefunden');
+        }
+    })
+    .catch(error => {
+        console.error('Fehler bei der Abfrage:', error);
+    });
 }
