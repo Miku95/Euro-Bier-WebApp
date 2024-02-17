@@ -7,6 +7,13 @@
     <title>1€ Getränke App</title>
     <style>
         /* Add some basic styling */
+        body {
+            background-color: green; /* Set background color to green */
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Align items vertically */
+            align-items: center; /* Center items horizontally */
+        }
+
         #currentCredit {
             padding: 10px;
             background-color: #f0f0f0;
@@ -20,20 +27,49 @@
         #userName {
             font-size: 24px;
             font-weight: bold;
-            color: #007bff;
+            color: black;
             margin-bottom: 10px;
+            text-align: center; /* Center the user name */
+        }
+
+        #buttonsContainer {
+            text-align: center; /* Center the buttons */
+        }
+
+        #logoContainer {
+            margin-top: 20px;
+        }
+
+        #clubLogo {
+            width: 200px; /* Set the width of the logo */
+            height: auto; /* Maintain aspect ratio */
         }
     </style>
 </head>
 <body>
-    <div id="userName"></div>
     <h1>1€ Getränke App</h1>
-    <button id="purchaseBeer">Bier</button>
-    <button id="purchaseSpezi">Spezi</button>
-    <button id="purchaseKiste">Kiste</button>
-    <div id="currentCredit">Aktueller Kontostand x€</div>
+    <div id="userName"></div>
+    <div id="buttonsContainer"> <!-- Container for the buttons -->
+        <button id="purchaseBeer">Bier</button>
+        <button id="purchaseSpezi">Spezi</button>
+        <button id="purchaseKiste">Kiste</button>
+    </div>
+    <div id="currentCredit">Aktueller Kontostand: ?€</div>
     <div id="responseMessage"></div>
 
+    <!-- Container for the logo -->
+    <div id="logoContainer">
+        <!-- Logo image -->
+        <img id="clubLogo" src="logo.png" alt="Club Logo">
+    </div>
+
     <script src="app.js"></script>
+    <script>
+        // Load credit when the page is accessed
+        window.onload = function() {
+            const userId = new URLSearchParams(window.location.search).get('userId');
+            fetchCurrentCredit(userId);
+        };
+    </script>
 </body>
 </html>
