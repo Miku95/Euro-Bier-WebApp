@@ -25,9 +25,8 @@ function purchaseItem(action, userId) {
     };
     fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec', {
         method: 'POST',
-        redirect: 'follow', // Added as per your solution
         headers: {
-            'Content-Type': 'text/plain;charset=utf-8', // Modified as per your solution
+            'Content-Type': 'text/plain;charset=utf-8', // or 'application/json' if you've handled CORS
         },
         body: JSON.stringify(data)
     })
