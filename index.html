@@ -12,6 +12,7 @@
             display: flex; /* Use flexbox for layout */
             flex-direction: column; /* Align items vertically */
             align-items: center; /* Center items horizontally */
+            position: relative; /* Set position to relative */
         }
 
         #currentCredit {
@@ -41,12 +42,18 @@
             margin-bottom: 20px; /* Add space between drink buttons and credit buttons */
         }
 
+        #creditButtons { 
+            margin-bottom: 20px; /* Add space between drink buttons and credit buttons */
+        }
+
         #logoContainer {
-            margin-top: 20px;
+            position: absolute; /* Set position to absolute */
+            top: 10px; /* Position from the top */
+            right: 10px; /* Position from the right */
         }
 
         #clubLogo {
-            width: 200px; /* Set the width of the logo */
+            width: 100px; /* Set the width of the logo */
             height: auto; /* Maintain aspect ratio */
         }
     </style>
