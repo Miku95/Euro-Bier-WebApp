@@ -16,7 +16,7 @@ function purchaseItem(action) {
         action: action,
         userId: userId,
     };
-    fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec?userId=${userId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain;charset=utf-8',
@@ -49,7 +49,7 @@ function fetchCurrentCredit(userId) {
         action: 'getCredit',
         userId: userId,
     };
-    fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec?userId=${userId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain;charset=utf-8',
