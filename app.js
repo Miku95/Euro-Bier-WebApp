@@ -10,6 +10,11 @@ document.getElementById('purchaseKiste').addEventListener('click', function() {
     purchaseItem('purchaseKiste');
 });
 
+document.getElementById('loadCreditBtn').addEventListener('click', function() {
+    const userId = new URLSearchParams(window.location.search).get('userId');
+    fetchCurrentCredit(userId);
+});
+
 function purchaseItem(action) {
     const userId = new URLSearchParams(window.location.search).get('userId');
     const data = {
@@ -65,7 +70,7 @@ function fetchCurrentCredit(userId) {
     .then(data => {
         console.log(data);
         if (data.status === "success") {
-            document.getElementById('userName').innerText = "Hi " + data.name + "! - Lass es dir schmecken!";
+            document.getElementById('userName').innerText = "Hi " + data.name + "! - Was darf es sein?";
             document.getElementById('currentCredit').innerText = "Aktueller Kontostand: €" + data.credit;
         } else {
             console.error("Error fetching current credit:", data.message);
