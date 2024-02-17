@@ -1,13 +1,16 @@
+const userId = getUserIdFromUrl();
+console.log("User ID:", userId);
+
 document.getElementById('purchaseBeer').addEventListener('click', function() {
-    purchaseItem('purchaseBeer');
+    purchaseItem('purchaseBeer', userId);
 });
 
 document.getElementById('purchaseSpezi').addEventListener('click', function() {
-    purchaseItem('purchaseSpezi');
+    purchaseItem('purchaseSpezi', userId);
 });
 
 document.getElementById('purchaseKiste').addEventListener('click', function() {
-    purchaseItem('purchaseKiste');
+    purchaseItem('purchaseKiste', userId);
 });
 
 function getUserIdFromUrl() {
@@ -15,39 +18,18 @@ function getUserIdFromUrl() {
     return urlParams.get('userId');
 }
 
-const userId = getUserIdFromUrl();
-console.log("User ID:", userId); // Log the ID to the console for verification
-
-
-function purchaseItem(action) {
-    let col;
-    switch (action) {
-        case 'purchaseBeer':
-            col = 1;
-            break;
-        case 'purchaseSpezi':
-            col = 2;
-            break;
-        case 'purchaseKiste':
-            col = 3;
-            break;
-        default:
-            console.error('Invalid action');
-            return;
-    }
-
+function purchaseItem(action, userId) {
     const data = {
         action: action,
-        row: 2, // Example row, adjust based on your needs
-        col: col
+        userId: userId, // Include the UserID in the request data
     };
-
     fetch('https://script.google.com/macros/s/AKfycbyid3TwlUSBEG7uRTiup_AvALBKSoiaMvqaHhJQ8MOaMmjnFBTF_Q5t9spHHx-Zu6J1/exec', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'text/plain;charset=utf-8', // or 'application/json' if you've handled CORS
-    },
-    body: JSON.stringify(data)
+        method: 'POST',
+        redirect: 'follow', // Added as per your solution
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8', // Modified as per your solution
+        },
+        body: JSON.stringify(data)
     })
     .then(response => {
         if (!response.ok) {
@@ -57,11 +39,9 @@ function purchaseItem(action) {
     })
     .then(data => {
         console.log(data); // Make sure data is what you expect
-        // Correctly access the properties of the data object
         if (data.status === "success") {
-            document.getElementById('responseMessage').innerText = data.message + ". New credit: " + data.newCredit;
+            document.getElementById('responseMessage').innerText = data.message + ". New credit: " + data.newCredit + "€";
         } else {
-            // Handle any other status
             document.getElementById('responseMessage').innerText = "Error: " + data.message;
         }
     })
