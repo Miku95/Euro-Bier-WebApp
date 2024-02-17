@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
@@ -34,6 +34,11 @@
 
         #buttonsContainer {
             text-align: center; /* Center the buttons */
+            margin-top: 20px; /* Add some space at the top */
+        }
+
+        #drinkButtons {
+            margin-bottom: 20px; /* Add space between drink buttons and credit buttons */
         }
 
         #logoContainer {
@@ -47,12 +52,18 @@
     </style>
 </head>
 <body>
-    <h1>1€ Getränke App</h1>
     <div id="userName"></div>
+    <h1>1€ Getränke App</h1>
     <div id="buttonsContainer"> <!-- Container for the buttons -->
-        <button id="purchaseBeer">Bier</button>
-        <button id="purchaseSpezi">Spezi</button>
-        <button id="purchaseKiste">Kiste</button>
+        <div id="drinkButtons"> <!-- Container for drink purchase buttons -->
+            <button id="purchaseBeer">Bier</button>
+            <button id="purchaseSpezi">Spezi</button>
+            <button id="purchaseKiste">Kiste</button>
+        </div>
+        <div id="creditButtons"> <!-- Container for credit load buttons -->
+            <button id="loadCredit5">Konto aufladen (5€)</button> <!-- Button to load 5 euros -->
+            <button id="loadCredit10">Konto aufladen (10€)</button> <!-- Button to load 10 euros -->
+        </div>
     </div>
     <div id="currentCredit">Aktueller Kontostand: ?€</div>
     <div id="responseMessage"></div>
@@ -62,7 +73,8 @@
         <!-- Logo image -->
         <img id="clubLogo" src="logo.png" alt="Club Logo">
     </div>
-
+    <div id="topSpezi"></div>
+    <div id="topBeer"></div>
     <script src="app.js"></script>
     <script>
         // Load credit when the page is accessed
