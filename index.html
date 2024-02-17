@@ -4,15 +4,35 @@
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drink Purchase App</title>
+    <title>1€ Getränke App</title>
+    <style>
+        /* Add some basic styling */
+        #currentCredit {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        #userName {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Drink Purchase</h1>
-    <button id="purchaseBeer">Purchase Beer</button>
-    <button id="purchaseSpezi">Purchase Spezi</button>
-    <button id="purchaseKiste">Purchase Kiste</button>
-
-    <div id="responseMessage"></div>
+    <div id="userName"></div>
+    <h1>1€ Getränke App</h1>
+    <button id="purchaseBeer">Bier</button>
+    <button id="purchaseSpezi">Spezi</button>
+    <button id="purchaseKiste">Kiste</button>
+    <div id="currentCredit">Aktueller Kontostand: 0€</div>
+    <!--<div id="responseMessage"></div> -->
 
     <script src="app.js"></script>
 </body>
