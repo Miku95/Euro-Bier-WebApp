@@ -13,6 +13,7 @@
             flex-direction: column; /* Align items vertically */
             align-items: center; /* Center items horizontally */
             position: relative; /* Set position to relative */
+            padding: 10px; /* Add some padding */
         }
 
         #currentCredit {
@@ -36,24 +37,23 @@
         #buttonsContainer {
             text-align: center; /* Center the buttons */
             margin-top: 20px; /* Add some space at the top */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        #drinkButtons {
-            margin-bottom: 20px; /* Add space between drink buttons and credit buttons */
-        }
-
-        #creditButtons { 
-            margin-bottom: 20px; /* Add space between drink buttons and credit buttons */
+        button {
+            padding: 10px 20px; /* Adjust button padding */
+            font-size: 18px; /* Adjust button font size */
         }
 
         #logoContainer {
-            position: absolute; /* Set position to absolute */
-            top: 10px; /* Position from the top */
-            right: 10px; /* Position from the right */
+            margin-top: 20px; /* Add space between logo and other content */
+            text-align: center; /* Center the logo horizontally */
         }
 
         #clubLogo {
-            width: 100px; /* Set the width of the logo */
+            width: 200px; /* Adjust logo size for mobile */
             height: auto; /* Maintain aspect ratio */
         }
     </style>
@@ -62,15 +62,11 @@
     <div id="userName"></div>
     <h1>1€ Getränke App</h1>
     <div id="buttonsContainer"> <!-- Container for the buttons -->
-        <div id="drinkButtons"> <!-- Container for drink purchase buttons -->
-            <button id="purchaseBeer">Bier</button>
-            <button id="purchaseSpezi">Spezi</button>
-            <button id="purchaseKiste">Kiste</button>
-        </div>
-        <div id="creditButtons"> <!-- Container for credit load buttons -->
-            <button id="loadCredit5">Konto aufladen (5€)</button> <!-- Button to load 5 euros -->
-            <button id="loadCredit10">Konto aufladen (10€)</button> <!-- Button to load 10 euros -->
-        </div>
+        <button id="purchaseBeer">Bier</button>
+        <button id="purchaseSpezi">Spezi</button>
+        <button id="purchaseKiste">Kiste</button>
+        <button id="loadCredit5">Konto aufladen (5€)</button> <!-- Button to load 5 euros -->
+        <button id="loadCredit10">Konto aufladen (10€)</button> <!-- Button to load 10 euros -->
     </div>
     <div id="currentCredit">Aktueller Kontostand: ?€</div>
     <div id="responseMessage"></div>
