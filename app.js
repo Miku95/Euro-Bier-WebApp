@@ -32,15 +32,15 @@ function purchaseItem(action) {
     .then(data => {
         console.log(data);
         if (data.status === "success") {
-            //document.getElementById('responseMessage').innerText = data.message;
+            document.getElementById('responseMessage').innerText = data.message;
             fetchCurrentCredit(userId);
         } else {
-            //document.getElementById('responseMessage').innerText = "Error: " + data.message;
+            document.getElementById('responseMessage').innerText = "Error: " + data.message;
         }
     })
     .catch(error => {
         console.error('Fetch error:', error);
-        //document.getElementById('responseMessage').innerText = 'Error making request. See console for more details.';
+        document.getElementById('responseMessage').innerText = 'Error making request. See console for more details.';
     });
 }
 
