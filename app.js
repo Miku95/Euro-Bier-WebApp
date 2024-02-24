@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchUserEmail(userId)
         .then(email => {
             if (!email) {
-                // If email is not found, prompt the user to enter their email
-                const userEmail = prompt('Bitte geben Sie Ihre E-Mail-Adresse ein:');
+                const userEmail = prompt('Bitte geb deine E-Mail-Adresse ein,\nwelche mit deinem PayPal-Konto verknüpft ist:');
                 if (userEmail) {
                     saveUserEmail(userId, userEmail);
                 }
@@ -16,19 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     getHighScores('getTopHighscores');
     
-    // Event listeners for the buttons
     document.getElementById('purchaseBeer').addEventListener('click', () => purchaseItem('purchaseBeer'));
     document.getElementById('purchaseSpezi').addEventListener('click', () => purchaseItem('purchaseSpezi'));
     document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
 });
 
 window.addEventListener('focus', function() {
-    // Reload the page whenever it gains focus
     window.location.reload();
 });
 
 document.addEventListener('visibilitychange', function() {
-    // If the page becomes visible again, reload it
     if (!document.hidden) {
         window.location.reload();
     }
@@ -121,33 +117,6 @@ function fetchUserEmail(userId) {
         .catch(error => {
             console.error('Fehler bei der Anfrage:', error);
             return null; // Return null in case of an error
-        });
-}
-
-function uploadCredit(action) {
-    const userId = getUserIdFromURL();
-    const data = { action, userId };
-    
-    fetchFromBaseURL(action, userId, data)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht in Ordnung');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            if (data.status === "success") {
-                const message = `Guthaben erfolgreich hochgeladen!`;
-                document.getElementById('responseMessage').innerText = message;
-                fetchCurrentCredit(userId);
-            } else {
-                document.getElementById('responseMessage').innerText = `Fehler: ${data.message}`;
-            }
-        })
-        .catch(error => {
-            console.error('Fehler bei der Anfrage:', error);
-            document.getElementById('responseMessage').innerText = 'Fehler bei der Anfrage. Weitere Details finden Sie in der Konsole.';
         });
 }
 
