@@ -56,17 +56,28 @@
             width: 200px; /* Adjust logo size for mobile */
             height: auto; /* Maintain aspect ratio */
         }
+
+        .paypal-button {
+            margin-top: 20px; /* Add space between PayPal button and other content */
+        }
     </style>
 </head>
 <body>
     <h1>1€ Getränke App</h1>
     <div id="userName"></div>
+   
     <div id="buttonsContainer"> <!-- Container for the buttons -->
         <button id="purchaseBeer">Bier</button>
         <button id="purchaseSpezi">Spezi</button>
         <button id="purchaseKiste">Kiste</button>
-        <button id="loadCredit5">Konto aufladen (5€)</button> <!-- Button to load 5 euros -->
-        <button id="loadCredit10">Konto aufladen (10€)</button> <!-- Button to load 10 euros -->
+        <!-- Link buttons to PayPal.me with specific amounts -->
+        <button onclick="window.open('https://www.paypal.me/GermaniaKa/5', '_blank')">Konto aufladen (5€)</button> 
+        <button onclick="window.open('https://www.paypal.me/GermaniaKa/10', '_blank')">Konto aufladen (10€)</button>
+        <div id="paypalEmailContainer">
+            <label for="paypalEmail">PayPal E-Mail:</label>
+            <input type="email" id="paypalEmail" placeholder="Ihre PayPal E-Mail">
+            <button onclick="savePayPalEmail()">Speichern</button>
+        </div>
     </div>
     <div id="currentCredit">Aktueller Kontostand: ?€</div>
     <div id="responseMessage"></div>
