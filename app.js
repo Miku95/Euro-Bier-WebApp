@@ -20,15 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
 });
 
-window.addEventListener('focus', function() {
-    window.location.reload();
-});
+// window.addEventListener('focus', function() {
+//     window.location.reload();
+// });
 
-document.addEventListener('visibilitychange', function() {
-    if (!document.hidden) {
-        window.location.reload();
-    }
-});
+// document.addEventListener('visibilitychange', function() {
+//     if (!document.hidden) {
+//         window.location.reload();
+//     }
+// });
 
 function getUserIdFromURL() {
     return new URLSearchParams(window.location.search).get('userId');
@@ -168,17 +168,19 @@ function saveUserEmail(userId, email) {
             email: email
         };
 
-        // Show a waiting message after the email is submitted
-        const dialog = document.createElement('div');
-        dialog.textContent = 'Bitte warten...';
-        document.body.appendChild(dialog);
-
         fetchFromBaseURL('savePayPalEmail', userId, data)
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
                     console.log("PayPal email saved successfully.");
                     alert("PayPal E-Mail gespeichert.");
+                    
+                    // Wait for a brief period before triggering other actions
+                    setTimeout(() => {
+                        // Trigger actions that depend on the email being saved
+                        fetchCurrentCredit(userId);
+                        getHighScores('getTopHighscores');
+                    }, 5000); // Wait for 2 seconds (adjust as needed)
                 } else {
                     console.error("Error saving PayPal email:", data.message);
                     alert("Fehler beim Speichern der PayPal E-Mail.");
@@ -187,13 +189,8 @@ function saveUserEmail(userId, email) {
             .catch(error => {
                 console.error('Error:', error);
                 alert("Fehler bei der Anfrage.");
-            })
-            .finally(() => {
-                // Remove the waiting message after the operation is completed
-                document.body.removeChild(dialog);
             });
     } else {
         alert('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein.');
     }
 }
-
