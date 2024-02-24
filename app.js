@@ -1,5 +1,5 @@
 // Define the URL as a global variable
-const baseURL = 'https://script.google.com/macros/s/AKfycbw5Mye3nD3hFb1fK-oMiy2AfK4cqeqIFC6WqnxS7B6jfjw4I4pP0u4o23v4IkfeKzZw/exec';
+const baseURL = 'https://script.google.com/macros/s/AKfycbzNJ0tdUZmLDRwdhAldu_z-s8Iig7m6G2ok5EysKfSKkH7ZppJFTu181xWZK7MaspYZ/exec';
 
 document.addEventListener('DOMContentLoaded', function() {
     const userId = getUserIdFromURL();
@@ -10,9 +10,32 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('purchaseBeer').addEventListener('click', () => purchaseItem('purchaseBeer'));
     document.getElementById('purchaseSpezi').addEventListener('click', () => purchaseItem('purchaseSpezi'));
     document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
-    document.getElementById('loadCredit5').addEventListener('click', () => uploadCredit('loadCredit5'));
-    document.getElementById('loadCredit10').addEventListener('click', () => uploadCredit('loadCredit10'));
 });
+
+function registerIntentToDeposit(userId, amount) {
+    // Example data object to send, including a new action 'registerIntentToDeposit'
+    const data = {
+        action: 'registerIntentToDeposit',
+        userId: userId,
+        amount: amount
+    };
+
+    // Make a POST request to your Google Apps Script web app with the intent to deposit
+    fetchFromBaseURL('registerIntentToDeposit', userId, data)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                console.log("Deposit intent registered successfully.");
+                // Open the PayPal.me link for the user to complete their deposit
+                window.open(`https://www.paypal.me/GermaniaKa/${amount}`, '_blank');
+            } else {
+                console.error("Error registering deposit intent:", data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 
 function getUserIdFromURL() {
     return new URLSearchParams(window.location.search).get('userId');
@@ -26,33 +49,6 @@ function fetchFromBaseURL(action, userId, data) {
         },
         body: JSON.stringify(data)
     });
-}
-
-function purchaseItem(action) {
-    const userId = getUserIdFromURL();
-    const data = { action, userId };
-    
-    fetchFromBaseURL(action, userId, data)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht in Ordnung');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            if (data.status === "success") {
-                document.getElementById('responseMessage').innerText = data.message;
-                fetchCurrentCredit(userId);
-                getHighScores('getTopHighscores');
-            } else {
-                document.getElementById('responseMessage').innerText = `Fehler: ${data.message}`;
-            }
-        })
-        .catch(error => {
-            console.error('Fehler bei der Anfrage:', error);
-            document.getElementById('responseMessage').innerText = 'Fehler bei der Anfrage. Weitere Details finden Sie in der Konsole.';
-        });
 }
 
 function fetchCurrentCredit(userId) {
@@ -145,3 +141,36 @@ function getHighScores(action) {
             console.error('Fehler bei der Abfrage:', error);
         });
 }
+
+function savePayPalEmail() {
+    const email = document.getElementById('paypalEmail').value;
+    const userId = getUserIdFromURL(); // Assuming you're using a user ID
+
+    if (email) {
+        // Example data object to send, including the action 'savePayPalEmail'
+        const data = {
+            action: 'savePayPalEmail',
+            userId: userId,
+            email: email
+        };
+
+        fetchFromBaseURL('savePayPalEmail', userId, data)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    console.log("PayPal email saved successfully.");
+                    alert("PayPal E-Mail gespeichert.");
+                } else {
+                    console.error("Error saving PayPal email:", data.message);
+                    alert("Fehler beim Speichern der PayPal E-Mail.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Fehler bei der Anfrage.");
+            });
+    } else {
+        alert('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein.');
+    }
+}
+
