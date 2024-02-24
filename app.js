@@ -27,6 +27,13 @@ window.addEventListener('focus', function() {
     window.location.reload();
 });
 
+document.addEventListener('visibilitychange', function() {
+    // If the page becomes visible again, reload it
+    if (!document.hidden) {
+        window.location.reload();
+    }
+});
+
 function getUserIdFromURL() {
     return new URLSearchParams(window.location.search).get('userId');
 }
