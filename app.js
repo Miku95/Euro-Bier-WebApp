@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
 });
 
+window.addEventListener('focus', function() {
+    // Reload the page whenever it gains focus
+    window.location.reload();
+});
 
 function getUserIdFromURL() {
     return new URLSearchParams(window.location.search).get('userId');
