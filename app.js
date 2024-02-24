@@ -4,6 +4,16 @@ const baseURL = 'https://script.google.com/macros/s/AKfycbzNJ0tdUZmLDRwdhAldu_z-
 document.addEventListener('DOMContentLoaded', function() {
     const userId = getUserIdFromURL();
     fetchCurrentCredit(userId);
+    fetchUserEmail(userId)
+        .then(email => {
+            if (!email) {
+                // If email is not found, prompt the user to enter their email
+                const userEmail = prompt('Bitte geben Sie Ihre E-Mail-Adresse ein:');
+                if (userEmail) {
+                    saveUserEmail(userId, userEmail);
+                }
+            }
+        });
     getHighScores('getTopHighscores');
     
     // Event listeners for the buttons
@@ -12,30 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
 });
 
-function registerIntentToDeposit(userId, amount) {
-    // Example data object to send, including a new action 'registerIntentToDeposit'
-    const data = {
-        action: 'registerIntentToDeposit',
-        userId: userId,
-        amount: amount
-    };
-
-    // Make a POST request to your Google Apps Script web app with the intent to deposit
-    fetchFromBaseURL('registerIntentToDeposit', userId, data)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                console.log("Deposit intent registered successfully.");
-                // Open the PayPal.me link for the user to complete their deposit
-                window.open(`https://www.paypal.me/GermaniaKa/${amount}`, '_blank');
-            } else {
-                console.error("Error registering deposit intent:", data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
 
 function getUserIdFromURL() {
     return new URLSearchParams(window.location.search).get('userId');
@@ -49,6 +35,33 @@ function fetchFromBaseURL(action, userId, data) {
         },
         body: JSON.stringify(data)
     });
+}
+
+function purchaseItem(action) {
+    const userId = getUserIdFromURL();
+    const data = { action, userId };
+    
+    fetchFromBaseURL(action, userId, data)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Netzwerkantwort war nicht in Ordnung');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if (data.status === "success") {
+                document.getElementById('responseMessage').innerText = data.message;
+                fetchCurrentCredit(userId);
+                getHighScores('getTopHighscores');
+            } else {
+                document.getElementById('responseMessage').innerText = `Fehler: ${data.message}`;
+            }
+        })
+        .catch(error => {
+            console.error('Fehler bei der Anfrage:', error);
+            document.getElementById('responseMessage').innerText = 'Fehler bei der Anfrage. Weitere Details finden Sie in der Konsole.';
+        });
 }
 
 function fetchCurrentCredit(userId) {
@@ -72,6 +85,31 @@ function fetchCurrentCredit(userId) {
         })
         .catch(error => {
             console.error('Fehler bei der Anfrage:', error);
+        });
+}
+
+function fetchUserEmail(userId) {
+    const data = { action: 'getUserEmail', userId };
+    
+    return fetchFromBaseURL('getUserEmail', userId, data)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Netzwerkantwort war nicht in Ordnung');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if (data.status === "success") {
+                return data.email; // Return user's email if found
+            } else {
+                console.error("Fehler beim Abrufen der E-Mail-Adresse des Benutzers:", data.message);
+                return null; // Return null if user's email not found
+            }
+        })
+        .catch(error => {
+            console.error('Fehler bei der Anfrage:', error);
+            return null; // Return null in case of an error
         });
 }
 
@@ -142,12 +180,8 @@ function getHighScores(action) {
         });
 }
 
-function savePayPalEmail() {
-    const email = document.getElementById('paypalEmail').value;
-    const userId = getUserIdFromURL(); // Assuming you're using a user ID
-
+function saveUserEmail(userId, email) {
     if (email) {
-        // Example data object to send, including the action 'savePayPalEmail'
         const data = {
             action: 'savePayPalEmail',
             userId: userId,
@@ -173,4 +207,3 @@ function savePayPalEmail() {
         alert('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein.');
     }
 }
-
