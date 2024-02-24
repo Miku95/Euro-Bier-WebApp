@@ -174,6 +174,13 @@ function saveUserEmail(userId, email) {
                 if (data.status === "success") {
                     console.log("PayPal email saved successfully.");
                     alert("PayPal E-Mail gespeichert.");
+                    
+                    // Wait for a brief period before triggering other actions
+                    setTimeout(() => {
+                        // Trigger actions that depend on the email being saved
+                        fetchCurrentCredit(userId);
+                        getHighScores('getTopHighscores');
+                    }, 5000); // Wait for 2 seconds (adjust as needed)
                 } else {
                     console.error("Error saving PayPal email:", data.message);
                     alert("Fehler beim Speichern der PayPal E-Mail.");
