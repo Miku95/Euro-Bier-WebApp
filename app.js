@@ -1,196 +1,156 @@
-// Define the URL as a global variable
-const baseURL = 'https://script.google.com/macros/s/AKfycbzNJ0tdUZmLDRwdhAldu_z-s8Iig7m6G2ok5EysKfSKkH7ZppJFTu181xWZK7MaspYZ/exec';
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1€ Getränke App</title>
+    <style>
+        body {
+            background-color: green;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 10px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const userId = getUserIdFromURL();
-    fetchCurrentCredit(userId);
-    fetchUserEmail(userId)
-        .then(email => {
-            if (!email) {
-                const userEmail = prompt('Bitte geb deine E-Mail-Adresse ein,\nwelche mit deinem PayPal-Konto verknüpft ist:');
-                if (userEmail) {
-                    saveUserEmail(userId, userEmail);
-                }
-            }
-        });
-    getHighScores('getTopHighscores');
-    
-    document.getElementById('purchaseBeer').addEventListener('click', () => purchaseItem('purchaseBeer'));
-    document.getElementById('purchaseSpezi').addEventListener('click', () => purchaseItem('purchaseSpezi'));
-    document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
-});
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
 
-// window.addEventListener('focus', function() {
-//     window.location.reload();
-// });
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-// document.addEventListener('visibilitychange', function() {
-//     if (!document.hidden) {
-//         window.location.reload();
-//     }
-// });
+        #currentCredit {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+        }
 
-function getUserIdFromURL() {
-    return new URLSearchParams(window.location.search).get('userId');
-}
+        #userName {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 10px;
+            text-align: center;
+        }
 
-function fetchFromBaseURL(action, userId, data) {
-    return fetch(`${baseURL}?userId=${userId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'text/plain;charset=utf-8',
-        },
-        body: JSON.stringify(data)
-    });
-}
+        #buttonsContainer {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-function purchaseItem(action) {
-    const userId = getUserIdFromURL();
-    const data = { action, userId };
-    
-    fetchFromBaseURL(action, userId, data)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht in Ordnung');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            if (data.status === "success") {
-                document.getElementById('responseMessage').innerText = data.message;
-                fetchCurrentCredit(userId);
-                getHighScores('getTopHighscores');
-            } else {
-                document.getElementById('responseMessage').innerText = `Fehler: ${data.message}`;
-            }
-        })
-        .catch(error => {
-            console.error('Fehler bei der Anfrage:', error);
-            document.getElementById('responseMessage').innerText = 'Fehler bei der Anfrage. Weitere Details finden Sie in der Konsole.';
-        });
-}
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+        }
 
-function fetchCurrentCredit(userId) {
-    const data = { action: 'getCredit', userId };
-    
-    fetchFromBaseURL('getCredit', userId, data)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht in Ordnung');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            if (data.status === "success") {
-                document.getElementById('userName').innerText = `Hallo ${data.name}! - Was darf es sein?`;
-                document.getElementById('currentCredit').innerText = `Aktueller Kontostand: €${data.credit}`;
-            } else {
-                console.error("Fehler beim Abrufen des aktuellen Guthabens:", data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Fehler bei der Anfrage:', error);
-        });
-}
+        #logoContainer {
+            margin-top: 20px;
+            text-align: center;
+        }
 
-function fetchUserEmail(userId) {
-    const data = { action: 'getUserEmail', userId };
-    
-    return fetchFromBaseURL('getUserEmail', userId, data)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht in Ordnung');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            if (data.status === "success") {
-                return data.email; // Return user's email if found
-            } else {
-                console.error("Fehler beim Abrufen der E-Mail-Adresse des Benutzers:", data.message);
-                return null; // Return null if user's email not found
-            }
-        })
-        .catch(error => {
-            console.error('Fehler bei der Anfrage:', error);
-            return null; // Return null in case of an error
-        });
-}
+        #clubLogo {
+            width: 200px;
+            height: auto;
+        }
 
-function getHighScores(action) {
-    const userId = getUserIdFromURL();
-    const data = { action, userId };
+        .paypal-button {
+            margin-top: 20px;
+        }
+        .modal {
+        display: none;
+        position: fixed;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0,0.4);
+        }
 
-    fetchFromBaseURL(action, userId, data)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht in Ordnung');
-            }
-            return response.json();
-        })
-        .then(responseData => {
-            console.log(responseData);
-            // Check if topSpezi exists
-            if (responseData.topSpeziHighscores) {
-                document.getElementById('topSpezi').innerHTML = "<h3>Top 3 Spezi Highscores</h3>";
-                // Display top 3 highscores for spezi
-                responseData.topSpeziHighscores.forEach((score, index) => {
-                    document.getElementById('topSpezi').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
-                });
-            } else {
-                console.error('Top-Spezi-Highscores nicht gefunden');
-            }
+        .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        }
 
-            // Check if topBeer exists
-            if (responseData.topBeerHighscores) {
-                document.getElementById('topBeer').innerHTML = "<h3>Top 3 Bier Highscores</h3>";
-                // Display top 3 highscores for beer
-                responseData.topBeerHighscores.forEach((score, index) => {
-                    document.getElementById('topBeer').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
-                });
-            } else {
-                console.error('Top-Bier-Highscores nicht gefunden');
-            }
-        })
-        .catch(error => {
-            console.error('Fehler bei der Abfrage:', error);
-        });
-}
+        .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
 
-function saveUserEmail(userId, email) {
-    if (email) {
-        const data = {
-            action: 'savePayPalEmail',
-            userId: userId,
-            email: email
-        };
+        .close:hover,
+        .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        }
 
-        fetchFromBaseURL('savePayPalEmail', userId, data)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    console.log("PayPal email saved successfully.");
-                    alert("PayPal E-Mail gespeichert.");
-                    
-                    // Wait for a brief period before triggering other actions
-                    setTimeout(() => {
-                        // Trigger actions that depend on the email being saved
-                        fetchCurrentCredit(userId);
-                        getHighScores('getTopHighscores');
-                    }, 5000); // Wait for 2 seconds (adjust as needed)
-                } else {
-                    console.error("Error saving PayPal email:", data.message);
-                    alert("Fehler beim Speichern der PayPal E-Mail.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Fehler bei der Anfrage.");
-            });
-    } else {
-        alert('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein.');
-    }
-}
+    </style>
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <h1>1€ Getränke App</h1>
+    <div id="userName"></div>
+   
+    <div id="buttonsContainer">
+        <button id="purchaseBeer">Bier</button>
+        <button id="purchaseSpezi">Spezi</button>
+        <button id="purchaseKiste">Kiste</button>
+        <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button> 
+    </div>
+    <div id="currentCredit">Aktueller Kontostand: ?€</div>
+
+    <div id="logoContainer">
+        <img id="clubLogo" src="logo.png" alt="Club Logo">
+    </div>
+    <div id="topSpezi"></div>
+    <div id="topBeer"></div>
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Transaktion erfolgreich!</h2>
+          <p>Lass es dir schmecken!</p>
+        </div>
+      </div>
+    <script src="app.js"></script>
+</body>
+</html>
