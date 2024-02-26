@@ -2,33 +2,20 @@
 const baseURL = 'https://script.google.com/macros/s/AKfycbzNJ0tdUZmLDRwdhAldu_z-s8Iig7m6G2ok5EysKfSKkH7ZppJFTu181xWZK7MaspYZ/exec';
 
 document.addEventListener('DOMContentLoaded', function() {
-    const userId = getUserIdFromURL();
-    fetchCurrentCredit(userId);
-    fetchUserEmail(userId)
-        .then(email => {
-            if (!email) {
-                const userEmail = prompt('Bitte geb deine E-Mail-Adresse ein,\nwelche mit deinem PayPal-Konto verknüpft ist:');
-                if (userEmail) {
-                    saveUserEmail(userId, userEmail);
-                }
-            }
+        const userId = getUserIdFromURL();
+
+        Promise.all([
+            fetchCurrentCredit(userId),
+            fetchUserEmail(userId),
+            getHighScores('getTopHighscores')
+        ]).then(() => {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }).catch((error) => {
+            console.error("Error loading data:", error);
+            document.getElementById('loadingOverlay').style.display = 'none';
         });
-    getHighScores('getTopHighscores');
-    
-    document.getElementById('purchaseBeer').addEventListener('click', () => purchaseItem('purchaseBeer'));
-    document.getElementById('purchaseSpezi').addEventListener('click', () => purchaseItem('purchaseSpezi'));
-    document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
-});
-
-// window.addEventListener('focus', function() {
-//     window.location.reload();
-// });
-
-// document.addEventListener('visibilitychange', function() {
-//     if (!document.hidden) {
-//         window.location.reload();
-//     }
-// });
+    } 
+);
 
 function getUserIdFromURL() {
     return new URLSearchParams(window.location.search).get('userId');
@@ -94,6 +81,7 @@ function fetchCurrentCredit(userId) {
             console.error('Fehler bei der Anfrage:', error);
         });
 }
+
 
 function fetchUserEmail(userId) {
     const data = { action: 'getUserEmail', userId };
