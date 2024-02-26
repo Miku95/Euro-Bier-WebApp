@@ -6,14 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1€ Getränke App</title>
     <style>
-        /* Add some basic styling */
         body {
-            background-color: green; /* Set background color to green */
-            display: flex; /* Use flexbox for layout */
-            flex-direction: column; /* Align items vertically */
-            align-items: center; /* Center items horizontally */
-            position: relative; /* Set position to relative */
-            padding: 10px; /* Add some padding */
+            background-color: green;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 10px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         #currentCredit {
@@ -31,65 +57,60 @@
             font-weight: bold;
             color: black;
             margin-bottom: 10px;
-            text-align: center; /* Center the user name */
+            text-align: center;
         }
 
         #buttonsContainer {
-            text-align: center; /* Center the buttons */
-            margin-top: 20px; /* Add some space at the top */
+            text-align: center;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
 
         button {
-            padding: 10px 20px; /* Adjust button padding */
-            font-size: 18px; /* Adjust button font size */
+            padding: 10px 20px;
+            font-size: 18px;
         }
 
         #logoContainer {
-            margin-top: 20px; /* Add space between logo and other content */
-            text-align: center; /* Center the logo horizontally */
+            margin-top: 20px;
+            text-align: center;
         }
 
         #clubLogo {
-            width: 200px; /* Adjust logo size for mobile */
-            height: auto; /* Maintain aspect ratio */
+            width: 200px;
+            height: auto;
         }
 
         .paypal-button {
-            margin-top: 20px; /* Add space between PayPal button and other content */
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
     <h1>1€ Getränke App</h1>
     <div id="userName"></div>
    
-    <div id="buttonsContainer"> <!-- Container for the buttons -->
+    <div id="buttonsContainer">
         <button id="purchaseBeer">Bier</button>
         <button id="purchaseSpezi">Spezi</button>
         <button id="purchaseKiste">Kiste</button>
-        <!-- Link buttons to PayPal.me with specific amounts -->
-        <button onclick="window.open('https://www.paypal.me/GermaniaKa/', '_blank')">Konto aufladen</button> 
+        <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button> 
     </div>
     <div id="currentCredit">Aktueller Kontostand: ?€</div>
     <div id="responseMessage"></div>
 
-    <!-- Container for the logo -->
     <div id="logoContainer">
-        <!-- Logo image -->
         <img id="clubLogo" src="logo.png" alt="Club Logo">
     </div>
     <div id="topSpezi"></div>
     <div id="topBeer"></div>
     <script src="app.js"></script>
-    <script>
-        // Load credit when the page is accessed
-        window.onload = function() {
-            const userId = new URLSearchParams(window.location.search).get('userId');
-            fetchCurrentCredit(userId);
-        };
-    </script>
 </body>
 </html>
