@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('purchaseBeer').addEventListener('click', () => purchaseItem('purchaseBeer'));
     document.getElementById('purchaseSpezi').addEventListener('click', () => purchaseItem('purchaseSpezi'));
     document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
+    document.getElementById('purchaseWurst').addEventListener('click', () => purchaseItem('purchaseWurst'));
     } 
 );
 
@@ -86,9 +87,9 @@ function fetchCurrentCredit(userId) {
         .then(data => {
             console.log(data);
             if (data.status === "success") {
-                if(data.credit == "AUFLADEN!") {data.credit = 0;}
+                if(data.credit == null) {data.credit = 0;}
                 document.getElementById('userName').innerText = `Hallo ${data.name}! - Was darf es sein?`;
-                document.getElementById('currentCredit').innerText = `Aktueller Kontostand: €${data.credit}`;
+                document.getElementById('currentCredit').innerText = `Aktueller Kontostand: ${data.credit}€`;
             } else {
                 console.error("Fehler beim Abrufen des aktuellen Guthabens:", data.message);
             }
