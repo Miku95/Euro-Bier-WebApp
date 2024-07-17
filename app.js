@@ -2,24 +2,26 @@
 const baseURL = 'https://script.google.com/macros/s/AKfycbzNJ0tdUZmLDRwdhAldu_z-s8Iig7m6G2ok5EysKfSKkH7ZppJFTu181xWZK7MaspYZ/exec';
 
 document.addEventListener('DOMContentLoaded', function() {
-        const userId = getUserIdFromURL();
+    const userId = getUserIdFromURL();
 
-        Promise.all([
-            fetchCurrentCredit(userId),
-            fetchUserEmail(userId),
-            getHighScores('getTopHighscores')
-        ]).then(() => {
-            document.getElementById('loadingOverlay').style.display = 'none';
-        }).catch((error) => {
-            console.error("Error loading data:", error);
-            document.getElementById('loadingOverlay').style.display = 'none';
-        });
+    Promise.all([
+        fetchCurrentCredit(userId),
+        fetchUserEmail(userId),
+        getHighScores('getTopHighscores')
+    ]).then(() => {
+        document.getElementById('loadingOverlay').style.display = 'none';
+    }).catch((error) => {
+        console.error("Error loading data:", error);
+        document.getElementById('loadingOverlay').style.display = 'none';
+    });
+
     document.getElementById('purchaseBeer').addEventListener('click', () => purchaseItem('purchaseBeer'));
     document.getElementById('purchaseSpezi').addEventListener('click', () => purchaseItem('purchaseSpezi'));
     document.getElementById('purchaseKiste').addEventListener('click', () => purchaseItem('purchaseKiste'));
     document.getElementById('purchaseWurst').addEventListener('click', () => purchaseItem('purchaseWurst'));
-    } 
-);
+    
+    setupCloseModalListener();
+});
 
 function getUserIdFromURL() {
     return new URLSearchParams(window.location.search).get('userId');
@@ -58,7 +60,12 @@ function purchaseItem(action) {
                     getHighScores('getTopHighscores')
                 ]);
             } else {
-                document.getElementById('responseMessage').innerText = `Fehler: ${data.message}`;
+                // Check if the failure is due to insufficient funds
+                if (data.message.includes('Bitte aufladen!')) {
+                    document.getElementById('responseMessage').innerText = 'Fehler: Nicht genügend Guthaben. Bitte Konto aufladen!';
+                } else {
+                    document.getElementById('responseMessage').innerText = `Fehler: ${data.message}`;
+                }
             }
         })
         .then(() => {
@@ -112,7 +119,12 @@ function fetchUserEmail(userId) {
         .then(data => {
             console.log(data);
             if (data.status === "success") {
+                if (!data.email) {
+                    promptForEmail(userId);
+                }
                 return data.email; // Return user's email if found
+            } else if (data.message === "Email not found for this user") {
+                promptForEmail(userId);
             } else {
                 console.error("Fehler beim Abrufen der E-Mail-Adresse des Benutzers:", data.message);
                 return null; // Return null if user's email not found
@@ -122,6 +134,50 @@ function fetchUserEmail(userId) {
             console.error('Fehler bei der Anfrage:', error);
             return null; // Return null in case of an error
         });
+}
+
+function promptForEmail(userId) {
+    const email = prompt('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein:');
+    if (email) {
+        saveUserEmail(userId, email);
+    } else {
+        alert('PayPal E-Mail-Adresse ist erforderlich, um fortzufahren.');
+    }
+}
+
+function saveUserEmail(userId, email) {
+    if (email) {
+        const data = {
+            action: 'savePayPalEmail',
+            userId: userId,
+            email: email
+        };
+
+        fetchFromBaseURL('savePayPalEmail', userId, data)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    console.log("PayPal email saved successfully.");
+                    alert("PayPal E-Mail gespeichert.");
+                    
+                    // Wait for a brief period before triggering other actions
+                    setTimeout(() => {
+                        // Trigger actions that depend on the email being saved
+                        fetchCurrentCredit(userId);
+                        getHighScores('getTopHighscores');
+                    }, 5000); // Wait for 5 seconds (adjust as needed)
+                } else {
+                    console.error("Error saving PayPal email:", data.message);
+                    alert("Fehler beim Speichern der PayPal E-Mail.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Fehler bei der Anfrage.");
+            });
+    } else {
+        alert('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein.');
+    }
 }
 
 function getHighScores(action) {
@@ -164,41 +220,6 @@ function getHighScores(action) {
         });
 }
 
-function saveUserEmail(userId, email) {
-    if (email) {
-        const data = {
-            action: 'savePayPalEmail',
-            userId: userId,
-            email: email
-        };
-
-        fetchFromBaseURL('savePayPalEmail', userId, data)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    console.log("PayPal email saved successfully.");
-                    alert("PayPal E-Mail gespeichert.");
-                    
-                    // Wait for a brief period before triggering other actions
-                    setTimeout(() => {
-                        // Trigger actions that depend on the email being saved
-                        fetchCurrentCredit(userId);
-                        getHighScores('getTopHighscores');
-                    }, 5000); // Wait for 2 seconds (adjust as needed)
-                } else {
-                    console.error("Error saving PayPal email:", data.message);
-                    alert("Fehler beim Speichern der PayPal E-Mail.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Fehler bei der Anfrage.");
-            });
-    } else {
-        alert('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein.');
-    }
-}
-
 function showSuccessModal() {
     const modal = document.getElementById('successModal');
     modal.style.display = 'block';
@@ -220,7 +241,3 @@ function setupCloseModalListener() {
         modal.style.display = 'none';
     });
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    setupCloseModalListener();
-});
