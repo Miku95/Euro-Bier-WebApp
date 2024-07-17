@@ -223,15 +223,25 @@ function getHighScores(action) {
 
 function showSuccessModal() {
     const modal = document.getElementById('successModal');
+    const funnyAnimation = document.getElementById('funnyAnimation');
+
     modal.style.display = 'block';
+    funnyAnimation.style.display = 'block';
 
     // Close the modal when the user clicks anywhere outside of it
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = 'none';
+            funnyAnimation.style.display = 'none';
         }
     }
+
+    // Hide funny animation after 2 seconds
+    setTimeout(() => {
+        funnyAnimation.style.display = 'none';
+    }, 5000);
 }
+
 
 function setupCloseModalListener() {
     const closeButton = document.querySelector('.close');
