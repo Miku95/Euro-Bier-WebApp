@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1€ Getränke App</title>
+    <title>1,5€ Getränke App</title>
 </head>
 <body>
     <!-- Loading overlay -->
@@ -14,26 +14,28 @@
 
     <img src="logo.png" alt="Background Logo" class="background-logo">
 
-    <h1>1,5€ Getränke App</h1>
-    <div id="userName"></div>
-   
-    <div id="buttonsContainer">
-        <button id="purchaseBeer">Bier</button>
-        <button id="purchaseSpezi">Spezi</button>
-        <button id="purchaseKiste">Kiste</button>
-        <button id="purchaseWurst">Wurst</button>
-        <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button> 
-    </div>
-    <div id="currentCredit">Aktueller Kontostand: ?€</div>
-    <div id="topBeer"></div>
-    <div id="topSpezi"></div>
-    
-    <div id="successModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Transaktion erfolgreich!</h2>
-            <p>Lass es dir schmecken!</p>
-            <div id="funnyAnimation">Prost! 🍺</div> <!-- Added inside modal -->
+    <div id="contentWrapper">
+        <h1>1,5€ Getränke App</h1>
+        <div id="userName"></div>
+
+        <div id="buttonsContainer">
+            <button id="purchaseBeer">Bier</button>
+            <button id="purchaseSpezi">Spezi</button>
+            <button id="purchaseKiste">Kiste</button>
+            <button id="purchaseWurst">Wurst</button>
+            <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button> 
+        </div>
+        <div id="currentCredit">Aktueller Kontostand: ?€</div>
+        <div id="topBeer"></div>
+        <div id="topSpezi"></div>
+
+        <div id="successModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Transaktion erfolgreich!</h2>
+                <p>Lass es dir schmecken!</p>
+                <div id="funnyAnimation">Prost! 🍺</div>
+            </div>
         </div>
     </div>
     <script src="app.js"></script>
