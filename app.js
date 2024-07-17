@@ -196,10 +196,15 @@ function getHighScores(action) {
             console.log(responseData);
             // Check if topSpezi exists
             if (responseData.topSpeziHighscores) {
-                document.getElementById('topSpezi').innerHTML = "<h3>Top 3 Spezi Highscores</h3>";
-                // Display top 3 highscores for spezi
+                const topSpeziContainer = document.getElementById('topSpezi');
+                topSpeziContainer.innerHTML = "<h3>Top 3 Spezi Highscores</h3>";
                 responseData.topSpeziHighscores.forEach((score, index) => {
-                    document.getElementById('topSpezi').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
+                    topSpeziContainer.innerHTML += `
+                        <div class="highscore">
+                            <span class="rank">${index + 1}.</span>
+                            <span class="user">${score.userId}</span>
+                            <span class="count">${score.count}</span>
+                        </div>`;
                 });
             } else {
                 console.error('Top-Spezi-Highscores nicht gefunden');
@@ -207,10 +212,15 @@ function getHighScores(action) {
 
             // Check if topBeer exists
             if (responseData.topBeerHighscores) {
-                document.getElementById('topBeer').innerHTML = "<h3>Top 3 Bier Highscores</h3>";
-                // Display top 3 highscores for beer
+                const topBeerContainer = document.getElementById('topBeer');
+                topBeerContainer.innerHTML = "<h3>Top 3 Bier Highscores</h3>";
                 responseData.topBeerHighscores.forEach((score, index) => {
-                    document.getElementById('topBeer').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
+                    topBeerContainer.innerHTML += `
+                        <div class="highscore">
+                            <span class="rank">${index + 1}.</span>
+                            <span class="user">${score.userId}</span>
+                            <span class="count">${score.count}</span>
+                        </div>`;
                 });
             } else {
                 console.error('Top-Bier-Highscores nicht gefunden');
@@ -220,6 +230,7 @@ function getHighScores(action) {
             console.error('Fehler bei der Abfrage:', error);
         });
 }
+
 
 function showSuccessModal() {
     const modal = document.getElementById('successModal');
