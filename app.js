@@ -53,8 +53,9 @@ function purchaseItem(action) {
         .then(data => {
             console.log(data);
             if (data.status === "success") {
-                // Show the success modal instead of updating responseMessage
+                // Show the success modal and funny animation instead of updating responseMessage
                 showSuccessModal();
+                showFunnyAnimation();
                 return Promise.all([
                     fetchCurrentCredit(userId),
                     getHighScores('getTopHighscores')
@@ -233,11 +234,19 @@ function showSuccessModal() {
 }
 
 function setupCloseModalListener() {
-    const closeButton = document.querySelector('.close'); // Get the close button
-    const modal = document.getElementById('successModal'); // Get the modal
+    const closeButton = document.querySelector('.close');
+    const modal = document.getElementById('successModal');
 
-    // Set up the click event listener for the close button
     closeButton.addEventListener('click', function() {
         modal.style.display = 'none';
     });
+}
+
+function showFunnyAnimation() {
+    const funnyAnimation = document.getElementById('funnyAnimation');
+    funnyAnimation.style.display = 'block';
+
+    setTimeout(() => {
+        funnyAnimation.style.display = 'none';
+    }, 5000);
 }

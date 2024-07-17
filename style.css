@@ -132,3 +132,23 @@ button {
     text-decoration: none;
     cursor: pointer;
 }
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-30px); }
+    60% { transform: translateY(-15px); }
+}
+
+#funnyAnimation {
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    background-color: yellow;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 2;
+    animation: bounce 1s;
+}
