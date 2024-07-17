@@ -137,7 +137,7 @@ function fetchUserEmail(userId) {
 }
 
 function promptForEmail(userId) {
-    const email = prompt('Bitte geben Sie Ihre PayPal E-Mail-Adresse ein:');
+    const email = prompt('Bitte geb deine PayPal E-Mail-Adresse ein. Diese wird benötigt, um spätere Zahlungseingänge mit deinem Konto zu verknüpfen');
     if (email) {
         saveUserEmail(userId, email);
     } else {
