@@ -196,7 +196,7 @@ function getHighScores(action) {
             console.log(responseData);
             // Check if topSpezi exists
             if (responseData.topSpeziHighscores) {
-                document.getElementById('topSpezi').innerHTML = "<h3>Top 3 Spezi Highscores</h3>";
+                document.getElementById('topSpezi').innerHTML = "<h3>Top 10 Spezi-Trinker</h3>";
                 // Display top 3 highscores for spezi
                 responseData.topSpeziHighscores.forEach((score, index) => {
                     document.getElementById('topSpezi').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
@@ -207,7 +207,7 @@ function getHighScores(action) {
 
             // Check if topBeer exists
             if (responseData.topBeerHighscores) {
-                document.getElementById('topBeer').innerHTML = "<h3>Top 3 Bier Highscores</h3>";
+                document.getElementById('topBeer').innerHTML = "<h3>Top 10 Bier-Trinker</h3>";
                 // Display top 3 highscores for beer
                 responseData.topBeerHighscores.forEach((score, index) => {
                     document.getElementById('topBeer').innerHTML += `<p>${index + 1}. ${score.userId}: ${score.count}</p>`;
@@ -241,7 +241,6 @@ function showSuccessModal() {
         funnyAnimation.style.display = 'none';
     }, 5000);
 }
-
 
 function setupCloseModalListener() {
     const closeButton = document.querySelector('.close');
