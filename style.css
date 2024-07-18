@@ -60,7 +60,7 @@ body {
 }
 
 #currentCredit, #userName, button {
-    padding: 10px;
+    padding: 15px; /* Increased padding for higher buttons */
     background-color: #f0f0f0;
     border-radius: 5px;
     margin-top: 10px;
@@ -92,7 +92,6 @@ body {
 
 button {
     flex: 1; /* Make buttons take equal space */
-    padding: 10px 20px;
     font-size: 18px;
     z-index: 1;
     width: 100%; /* Ensure buttons take full width */
@@ -154,8 +153,13 @@ button {
         padding: 5px;
     }
 
+    #infoContainer {
+        max-width: 100%; /* Allow container to use full width on small screens */
+    }
+
     #currentCredit, #userName, button {
-        font-size: 16px;
+        font-size: 16px; /* Adjust font size for smaller screens */
+        padding: 12px 15px; /* Adjust padding for taller buttons on smaller screens */
     }
 
     .modal-content {
