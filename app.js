@@ -98,6 +98,9 @@ function fetchCurrentCredit(userId) {
                 if(data.credit == null) {data.credit = 0;}
                 document.getElementById('userName').innerText = `Hallo ${data.name}! - Was darf es sein?`;
                 document.getElementById('currentCredit').innerText = `Aktueller Kontostand: ${data.credit}€`;
+                document.getElementById('beerCount').innerText = `Getrunkene Biere: ${data.beerCount}`;
+                document.getElementById('speziCount').innerText = `Getrunkene Spezis: ${data.speziCount}`;
+                document.getElementById('wurstCount').innerText = `Gegessen Würste: ${data.wurstCount}`;
             } else {
                 console.error("Fehler beim Abrufen des aktuellen Guthabens:", data.message);
             }
@@ -106,6 +109,7 @@ function fetchCurrentCredit(userId) {
             console.error('Fehler bei der Anfrage:', error);
         });
 }
+
 
 function fetchUserEmail(userId) {
     const data = { action: 'getUserEmail', userId };
