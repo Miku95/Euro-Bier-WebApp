@@ -11,6 +11,16 @@ body {
     overflow-y: auto;
 }
 
+.count-item {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#personalCounts {
+    margin: 20px 0;
+}
+
 .background-logo {
     position: absolute;
     top: 50%;
@@ -47,17 +57,6 @@ body {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-#currentCredit {
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    margin-top: 20px;
-    font-size: 20px;
-    color: #333;
-    text-align: center;
-    z-index: 1;
 }
 
 #userName {

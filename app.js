@@ -98,9 +98,9 @@ function fetchCurrentCredit(userId) {
                 if(data.credit == null) {data.credit = 0;}
                 document.getElementById('userName').innerText = `Hallo ${data.name}! - Was darf es sein?`;
                 document.getElementById('currentCredit').innerText = `Aktueller Kontostand: ${data.credit}€`;
-                document.getElementById('beerCount').innerText = `Getrunkene Biere: ${data.beerCount}`;
-                document.getElementById('speziCount').innerText = `Getrunkene Spezis: ${data.speziCount}`;
-                document.getElementById('wurstCount').innerText = `Gegessen Würste: ${data.wurstCount}`;
+                document.getElementById('beerCount').innerText = `Bier-Count: ${data.beerCount}`;
+                document.getElementById('speziCount').innerText = `Spezi-Count: ${data.speziCount}`;
+                document.getElementById('wurstCount').innerText = `Wurst-Count: ${data.wurstCount}`;
             } else {
                 console.error("Fehler beim Abrufen des aktuellen Guthabens:", data.message);
             }
