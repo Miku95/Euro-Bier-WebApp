@@ -123,7 +123,7 @@ body {
     flex: 1 1 calc(45% - 20px); /* Adjust button width for mobile screens */
     border: none;
     border-radius: 8px;
-    background-color: #3498db;
+    background-color: #72be83;
     color: white;
     cursor: pointer;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
