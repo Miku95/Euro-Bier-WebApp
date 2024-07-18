@@ -90,7 +90,9 @@ body {
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
+
 #priceList {
     margin-bottom: 20px;
 }
@@ -113,9 +115,12 @@ body {
     font-size: 18px;
     font-weight: bold;
 }
+
 #buttonsContainer button {
     padding: 10px 20px;
     font-size: 16px;
+    margin: 5px 0;
+    flex: 1 1 calc(50% - 10px); /* Adjust button width for mobile screens */
 }
 
 button {
@@ -179,4 +184,41 @@ button {
     max-width: 600px;
     text-align: center;
     z-index: 1;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 20px;
+    }
+
+    .section {
+        padding: 10px;
+    }
+
+    #userName {
+        font-size: 20px;
+    }
+
+    #priceList h3 {
+        font-size: 18px;
+    }
+
+    #priceList li {
+        font-size: 16px;
+    }
+
+    #buttonsContainer button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+
+    .modal-content {
+        padding: 15px;
+        width: 90%;
+    }
 }
