@@ -68,34 +68,59 @@ body {
     z-index: 1;
 }
 
-#buttonsContainer {
+.section {
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white */
+    backdrop-filter: blur(10px); /* Increased blur effect */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
     text-align: center;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     z-index: 1;
+    margin: 20px 0;
+}
+
+.section h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+#buttonsContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+#priceList {
+    margin-bottom: 20px;
+}
+
+#priceList h3 {
+    margin: 0;
+    font-size: 20px;
+    text-align: center;
+}
+
+#priceList ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+#priceList li {
+    margin: 5px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+#buttonsContainer button {
+    padding: 10px 20px;
+    font-size: 16px;
 }
 
 button {
     padding: 10px 20px;
     font-size: 18px;
-    z-index: 1;
-}
-
-#logoContainer {
-    margin-top: 20px;
-    text-align: center;
-    z-index: 1;
-}
-
-#clubLogo {
-    width: 200px;
-    height: auto;
-}
-
-.paypal-button {
-    margin-top: 20px;
     z-index: 1;
 }
 
@@ -112,10 +137,11 @@ button {
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white */
+    backdrop-filter: blur(10px); /* Increased blur effect */
     padding: 20px;
     border: 1px solid #888;
+    margin: 15% auto;
     width: 80%;
 }
 
@@ -146,4 +172,11 @@ button {
     padding: 10px;
     border-radius: 10px;
     animation: bounce 2s;
+}
+
+#highScores {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    z-index: 1;
 }

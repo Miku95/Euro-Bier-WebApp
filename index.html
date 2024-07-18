@@ -15,32 +15,55 @@
     <img src="logo.png" alt="Background Logo" class="background-logo">
 
     <h1>1,5€ Getränke App</h1>
+
     <div id="userName"></div>
-    <div id="personalCounts">
-        <div id="currentCredit" class="count-item">Aktueller Kontostand: ?€</div>
-        <div id="beerCount" class="count-item">Bier-Count: 0</div>
-        <div id="speziCount" class="count-item">Spezi-Count: 0</div>
-        <div id="wurstCount" class="count-item">Wurst-Count: 0</div>
+
+    <!-- Bereich für Kontoinformationen -->
+    <div class="section" id="accountInfo">
+        <h2>Kontoinformationen</h2>
+        <div id="personalCounts">
+            <div id="currentCredit" class="count-item">Aktueller Kontostand: ?€</div>
+            <div id="beerCount" class="count-item">Bier-Count: 0</div>
+            <div id="speziCount" class="count-item">Spezi-Count: 0</div>
+            <div id="wurstCount" class="count-item">Wurst-Count: 0</div>
+        </div>
     </div>
-    
-    <div id="buttonsContainer">
-        <button id="purchaseBeer">Bier</button>
-        <button id="purchaseSpezi">Spezi</button>
-        <button id="purchaseKiste">Kiste</button>
-        <button id="purchaseWurst">Wurst</button>
-        <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button> 
+
+    <!-- Bereich für Aktionen -->
+    <div class="section" id="actionButtons">
+        <div id="priceList">
+            <h2>Preisliste</h2>
+            <ul>
+                <li>Bier/Spezi: 1,5€</li>
+                <li>Kiste: 25€</li>
+                <li>Wurst: 2€</li>
+            </ul>
+        </div>
+        <div id="buttonsContainer">
+            <button id="purchaseBeer">Bier</button>
+            <button id="purchaseSpezi">Spezi</button>
+            <button id="purchaseKiste">Kiste</button>
+            <button id="purchaseWurst">Wurst</button>
+            <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button>
+        </div>
     </div>
-    <div id="topBeer"></div>
-    <div id="topSpezi"></div>
+
+    <!-- Bereich für Highscores -->
+    <div class="section" id="highScores">
+        <h2>Highscores</h2>
+        <div id="topBeer"></div>
+        <div id="topSpezi"></div>
+    </div>
     
     <div id="successModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Transaktion erfolgreich!</h2>
             <p>Lass es dir schmecken!</p>
-            <div id="funnyAnimation">Prost! 🍺</div> <!-- Added inside modal -->
+            <div id="funnyAnimation">Prost! 🍺</div>
         </div>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
