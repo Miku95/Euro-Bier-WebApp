@@ -50,17 +50,25 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-#currentCredit, #userName {
+#infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Limit maximum width */
+    box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+#currentCredit, #userName, button {
     padding: 10px;
     background-color: #f0f0f0;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 20px;
     color: #333;
     text-align: center;
     z-index: 1;
     width: 100%; /* Ensure full width */
-    max-width: 600px; /* Limit maximum width */
     box-sizing: border-box; /* Include padding in the width calculation */
 }
 
@@ -146,13 +154,8 @@ button {
         padding: 5px;
     }
 
-    #currentCredit, #userName {
+    #currentCredit, #userName, button {
         font-size: 16px;
-    }
-
-    button {
-        font-size: 16px;
-        padding: 10px 18px; /* Adjust padding for smaller screens */
     }
 
     .modal-content {
