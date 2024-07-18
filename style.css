@@ -75,15 +75,12 @@ body {
     flex-direction: column;
     gap: 10px;
     z-index: 1;
-    width: 11%;
 }
 
 button {
     padding: 10px 20px;
     font-size: 18px;
     z-index: 1;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 #logoContainer {
