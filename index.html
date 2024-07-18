@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <link rel="stylesheet" href="style.css">
@@ -13,33 +14,20 @@
 
     <img src="logo.png" alt="Background Logo" class="background-logo">
 
-    <h1>1,50€ Getränke App</h1>
-
-    <!-- New container for consistent width -->
-    <div id="contentContainer">
-        <div id="userName">Hallo Name! - Was darf es sein?</div>
-        <div id="currentCredit">Aktueller Kontostand: ?€</div>
-
-        <div id="buttonsContainer">
-            <button id="purchaseBeer">Bier</button>
-            <button id="purchaseSpezi">Spezi</button>
-            <button id="purchaseKiste">Kiste</button>
-            <button id="purchaseWurst">Wurst</button>
-            <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button> 
-        </div>
-
-        <div class="table-container">
-            <table>
-                <tbody>
-                    <tr>
-                        <td id="topBeer">...</td>
-                        <td id="topSpezi">...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <h1>1,5€ Getränke App</h1>
+    <div id="userName"></div>
+   
+    <div id="buttonsContainer">
+        <button id="purchaseBeer">Bier</button>
+        <button id="purchaseSpezi">Spezi</button>
+        <button id="purchaseKiste">Kiste</button>
+        <button id="purchaseWurst">Wurst</button>
+        <button id="LadeButton" onclick="window.open('https://www.paypal.me/GermaniaKa/')">Konto aufladen</button> 
     </div>
-
+    <div id="currentCredit">Aktueller Kontostand: ?€</div>
+    <div id="topBeer"></div>
+    <div id="topSpezi"></div>
+    
     <div id="successModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
