@@ -50,7 +50,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-#infoContainer {
+#contentContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,7 +87,6 @@ body {
     gap: 10px;
     z-index: 1;
     width: 100%; /* Ensure container takes full width */
-    max-width: 600px; /* Max width for container */
 }
 
 button {
@@ -96,6 +95,33 @@ button {
     z-index: 1;
     width: 100%; /* Ensure buttons take full width */
     box-sizing: border-box; /* Include padding in the button width */
+}
+
+.table-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
 .modal {
@@ -153,13 +179,17 @@ button {
         padding: 5px;
     }
 
-    #infoContainer {
+    #contentContainer {
         max-width: 100%; /* Allow container to use full width on small screens */
     }
 
     #currentCredit, #userName, button {
         font-size: 16px; /* Adjust font size for smaller screens */
         padding: 12px 15px; /* Adjust padding for taller buttons on smaller screens */
+    }
+
+    th, td {
+        padding: 10px; /* Adjust padding for smaller screens */
     }
 
     .modal-content {
